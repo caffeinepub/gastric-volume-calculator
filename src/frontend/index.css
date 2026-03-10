@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Sora (body) ── */
+@font-face {
+  font-family: "Sora";
+  src: url("/assets/fonts/Sora-Variable.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Fraunces (display) ── */
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces-Italic-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+
+    /* Core palette — Clinical teal-navy */
+    --background: 0.975 0.006 220;
+    --foreground: 0.18 0.03 240;
+
+    --card: 0.998 0.003 220;
+    --card-foreground: 0.18 0.03 240;
+
+    --popover: 0.998 0.003 220;
+    --popover-foreground: 0.18 0.03 240;
+
+    /* Primary: deep clinical teal */
+    --primary: 0.38 0.1 215;
+    --primary-foreground: 0.98 0.005 220;
+
+    /* Secondary: light teal wash */
+    --secondary: 0.93 0.025 210;
+    --secondary-foreground: 0.28 0.06 220;
+
+    --muted: 0.94 0.015 215;
+    --muted-foreground: 0.52 0.04 225;
+
+    --accent: 0.9 0.04 210;
+    --accent-foreground: 0.28 0.06 220;
+
+    /* Destructive: clinical red for high risk */
+    --destructive: 0.52 0.22 25;
+    --destructive-foreground: 0.98 0 0;
+
+    /* Success: safe green */
+    --success: 0.52 0.18 155;
+    --success-foreground: 0.98 0 0;
+
+    /* Warning: amber */
+    --warning: 0.72 0.18 72;
+    --warning-foreground: 0.16 0.03 240;
+
+    --border: 0.88 0.02 215;
+    --input: 0.88 0.02 215;
+    --ring: 0.38 0.1 215;
+
+    --chart-1: 0.55 0.14 215;
+    --chart-2: 0.52 0.18 155;
+    --chart-3: 0.52 0.22 25;
+    --chart-4: 0.72 0.18 72;
+    --chart-5: 0.62 0.12 280;
+
+    --sidebar: 0.24 0.06 225;
+    --sidebar-foreground: 0.92 0.02 220;
+    --sidebar-primary: 0.65 0.12 210;
+    --sidebar-primary-foreground: 0.98 0.005 220;
+    --sidebar-accent: 0.32 0.07 225;
+    --sidebar-accent-foreground: 0.92 0.02 220;
+    --sidebar-border: 0.32 0.07 225;
+    --sidebar-ring: 0.65 0.12 210;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: "Fraunces", Georgia, serif;
+  }
+  .font-body {
+    font-family: "Sora", system-ui, sans-serif;
+  }
+}
