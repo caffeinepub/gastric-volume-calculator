@@ -33,6 +33,114 @@ function formatDate(timestamp: bigint): string {
   }).format(new Date(ms));
 }
 
+// ── Precautions Data ──────────────────────────────────────────────────────────
+
+const PRECAUTIONS = [
+  {
+    title: "Provides only an estimate",
+    body: "Gastric volume calculators approximate volume from antral measurements and may not reflect the true gastric content.",
+  },
+  {
+    title: "Validated only in selected populations",
+    body: (
+      <>
+        Accuracy may be reduced in{" "}
+        <strong>
+          pregnancy, obesity, pediatrics, critically ill patients, patients
+          taking GLP-1 agonists, or trauma patients
+        </strong>
+        .
+      </>
+    ),
+  },
+  {
+    title: "Patient position affects calculation",
+    body: (
+      <>
+        Most formulas are validated in the{" "}
+        <strong>right lateral decubitus position</strong>; other positions may
+        give inaccurate values.
+      </>
+    ),
+  },
+  {
+    title: "Operator dependent measurement",
+    body: (
+      <>
+        Incorrect identification or tracing of the{" "}
+        <strong>gastric antrum</strong> can significantly alter the calculated
+        volume.
+      </>
+    ),
+  },
+  {
+    title: "Volume threshold is not absolute",
+    body: (
+      <>
+        Suggested cut-offs (e.g., <strong>&gt;1.5 mL/kg</strong>) indicate
+        possible risk but{" "}
+        <strong>do not definitively predict aspiration</strong>.
+      </>
+    ),
+  },
+  {
+    title: "Clinical context must guide decisions",
+    body: (
+      <>
+        Gastric volume estimates should{" "}
+        <strong>
+          supplement, not replace clinical judgment and aspiration precautions
+        </strong>
+        .
+      </>
+    ),
+  },
+];
+
+// ── Precautions Panel (inline) ────────────────────────────────────────────────
+
+function PrecautionsPanel() {
+  return (
+    <div className="space-y-3" data-ocid="precautions.panel">
+      <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 px-4 py-3 flex gap-3 items-start">
+        <ShieldAlert className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+        <p className="text-sm text-foreground/80">
+          Review these precautions before interpreting calculator results in
+          clinical practice.
+        </p>
+      </div>
+
+      {PRECAUTIONS.map((item, i) => (
+        <motion.div
+          key={item.title}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.05, duration: 0.3 }}
+          data-ocid={`precautions.item.${i + 1}`}
+        >
+          <Card className="border-border">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex gap-3 items-start">
+                <div className="w-6 h-6 rounded-full bg-amber-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground mb-1">
+                    {item.title}
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {item.body}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
 // ── Calculator Form ───────────────────────────────────────────────────────────
 
 interface FormValues {
@@ -376,6 +484,15 @@ function CalculatorTab() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Precautions inline below calculator */}
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <ShieldAlert className="w-4 h-4 text-amber-600" />
+          <h2 className="text-sm font-semibold text-foreground">Precautions</h2>
+        </div>
+        <PrecautionsPanel />
+      </div>
     </div>
   );
 }
@@ -483,111 +600,6 @@ function HistoryTab() {
   );
 }
 
-// ── Precautions Tab ───────────────────────────────────────────────────────────
-
-const PRECAUTIONS = [
-  {
-    title: "Provides only an estimate",
-    body: "Gastric volume calculators approximate volume from antral measurements and may not reflect the true gastric content.",
-  },
-  {
-    title: "Validated only in selected populations",
-    body: (
-      <>
-        Accuracy may be reduced in{" "}
-        <strong>
-          pregnancy, obesity, pediatrics, or critically ill patients
-        </strong>
-        .
-      </>
-    ),
-  },
-  {
-    title: "Patient position affects calculation",
-    body: (
-      <>
-        Most formulas are validated in the{" "}
-        <strong>right lateral decubitus position</strong>; other positions may
-        give inaccurate values.
-      </>
-    ),
-  },
-  {
-    title: "Operator dependent measurement",
-    body: (
-      <>
-        Incorrect identification or tracing of the{" "}
-        <strong>gastric antrum</strong> can significantly alter the calculated
-        volume.
-      </>
-    ),
-  },
-  {
-    title: "Volume threshold is not absolute",
-    body: (
-      <>
-        Suggested cut-offs (e.g., <strong>&gt;1.5 mL/kg</strong>) indicate
-        possible risk but{" "}
-        <strong>do not definitively predict aspiration</strong>.
-      </>
-    ),
-  },
-  {
-    title: "Clinical context must guide decisions",
-    body: (
-      <>
-        Gastric volume estimates should{" "}
-        <strong>
-          supplement, not replace clinical judgment and aspiration precautions
-        </strong>
-        .
-      </>
-    ),
-  },
-];
-
-function PrecautionsTab() {
-  return (
-    <div className="space-y-3" data-ocid="precautions.panel">
-      <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 px-4 py-3 flex gap-3 items-start">
-        <ShieldAlert className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
-        <p className="text-sm text-foreground/80">
-          Review these precautions before interpreting calculator results in
-          clinical practice.
-        </p>
-      </div>
-
-      {PRECAUTIONS.map((item, i) => (
-        <motion.div
-          key={item.title}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.05, duration: 0.3 }}
-          data-ocid={`precautions.item.${i + 1}`}
-        >
-          <Card className="border-border">
-            <CardContent className="pt-4 pb-4">
-              <div className="flex gap-3 items-start">
-                <div className="w-6 h-6 rounded-full bg-amber-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground mb-1">
-                    {item.title}
-                  </p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {item.body}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
 // ── Main App ──────────────────────────────────────────────────────────────────
 
 export default function App() {
@@ -636,23 +648,12 @@ export default function App() {
               <ClipboardList className="w-3.5 h-3.5 mr-1.5" />
               History
             </TabsTrigger>
-            <TabsTrigger
-              value="precautions"
-              className="flex-1"
-              data-ocid="app.tab"
-            >
-              <ShieldAlert className="w-3.5 h-3.5 mr-1.5" />
-              Precautions
-            </TabsTrigger>
           </TabsList>
           <TabsContent value="calculator">
             <CalculatorTab />
           </TabsContent>
           <TabsContent value="history">
             <HistoryTab />
-          </TabsContent>
-          <TabsContent value="precautions">
-            <PrecautionsTab />
           </TabsContent>
         </Tabs>
 
